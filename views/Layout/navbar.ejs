@@ -1,0 +1,719 @@
+<div class="flex">
+    <!-- sidebar start large screen-->
+    <div
+      id="large-sidebar"
+      class="sidebar bg-white-300 h-screen pl-4 pt-1 relative w-48 flex flex-col hidden md:block"
+    >
+      <!-- expand&contract button start -->
+      <img
+        src="../assets/back.png"
+        alt=""
+        class="bg-white-800 rounded-full absolute -right-3 top-2 cursor-pointer w-7"
+        id="btn1"
+      />
+
+      <!-- expand&contract button end -->
+
+      <!-- logo start -->
+      <div>
+        <img src="../assets/odisha_logo.png" alt="" />
+      </div>
+      <!-- logo end -->
+
+      <!-- list start -->
+
+      <!-- dashboard start -->
+      <div class="flex flex-row cursor-pointer gap-2 pt-5 items-center">
+        <a
+          aria-current="page"
+          href="cas/dashboard"
+          class="flex flex-row gap-2"
+        >
+          <i
+            class="icon"
+            data-bs-toggle="tooltip"
+            title="Dashboard"
+            data-bs-placement="right"
+          >
+            <svg
+              class="w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                opacity="0.4"
+                d="M16.0756 2H19.4616C20.8639 2 22.0001 3.14585 22.0001 4.55996V7.97452C22.0001 9.38864 20.8639 10.5345 19.4616 10.5345H16.0756C14.6734 10.5345 13.5371 9.38864 13.5371 7.97452V4.55996C13.5371 3.14585 14.6734 2 16.0756 2Z"
+                fill="currentColor"
+              ></path>
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M4.53852 2H7.92449C9.32676 2 10.463 3.14585 10.463 4.55996V7.97452C10.463 9.38864 9.32676 10.5345 7.92449 10.5345H4.53852C3.13626 10.5345 2 9.38864 2 7.97452V4.55996C2 3.14585 3.13626 2 4.53852 2ZM4.53852 13.4655H7.92449C9.32676 13.4655 10.463 14.6114 10.463 16.0255V19.44C10.463 20.8532 9.32676 22 7.92449 22H4.53852C3.13626 22 2 20.8532 2 19.44V16.0255C2 14.6114 3.13626 13.4655 4.53852 13.4655ZM19.4615 13.4655H16.0755C14.6732 13.4655 13.537 14.6114 13.537 16.0255V19.44C13.537 20.8532 14.6732 22 16.0755 22H19.4615C20.8637 22 22 20.8532 22 19.44V16.0255C22 14.6114 20.8637 13.4655 19.4615 13.4655Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+          </i>
+          <span>Dashboard</span>
+        </a>
+      </div>
+      <!-- dashboard end -->
+
+      <!-- master start -->
+      <div
+        class="flex flex-row cursor-pointer pt-3 items-center justify-between"
+        id="master"
+      >
+        <div class="flex flex-row items-center gap-2">
+          <a aria-current="page" href=".cas/dashboard">
+            <i
+              class="icon"
+              data-bs-toggle="tooltip"
+              title="Menu Style"
+              data-bs-placement="right"
+            >
+              <svg
+                width="20"
+                class="icon-20"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  opacity="0.4"
+                  d="M13.6663 6.99992C13.6663 10.6826 10.6817 13.6666 6.99967 13.6666C3.31767 13.6666 0.333008 10.6826 0.333008 6.99992C0.333008 3.31859 3.31767 0.333252 6.99967 0.333252C10.6817 0.333252 13.6663 3.31859 13.6663 6.99992Z"
+                  fill="currentColor"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.01351 6.20239C3.57284 6.20239 3.21484 6.56039 3.21484 6.99973C3.21484 7.43973 3.57284 7.79839 4.01351 7.79839C4.45418 7.79839 4.81218 7.43973 4.81218 6.99973C4.81218 6.56039 4.45418 6.20239 4.01351 6.20239ZM6.99958 6.20239C6.55891 6.20239 6.20091 6.56039 6.20091 6.99973C6.20091 7.43973 6.55891 7.79839 6.99958 7.79839C7.44024 7.79839 7.79824 7.43973 7.79824 6.99973C7.79824 6.56039 7.44024 6.20239 6.99958 6.20239ZM9.18718 6.99973C9.18718 6.56039 9.54518 6.20239 9.98584 6.20239C10.4265 6.20239 10.7845 6.56039 10.7845 6.99973C10.7845 7.43973 10.4265 7.79839 9.98584 7.79839C9.54518 7.79839 9.18718 7.43973 9.18718 6.99973Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </i>
+          </a>
+          <span>Master</span>
+        </div>
+        <i class="right-icon pl-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            class="icon-18"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </i>
+      </div>
+      <!-- master end -->
+      <div id="list" style="display: none">
+        <ul>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/departments" class="text-xs">Department </a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/directorate" class="text-xs"> Directorate </a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/district" class="text-xs"> District Office </a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/bank" class="text-xs">Bank </a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/scheme" class="text-xs">Scheme</a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/designation" class="text-xs">Designation</a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/user" class="text-xs">User</a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/financialYear" class="text-xs">Finacial Year</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- Transaction start -->
+      <div
+        class="flex flex-row cursor-pointer pt-3 items-center justify-between"
+        id="Transaction"
+      >
+        <div class="flex flex-row items-center gap-2">
+          <a aria-current="page" href="/cas/dashboard">
+            <i
+              class="icon"
+              data-bs-toggle="tooltip"
+              title="Menu Style"
+              data-bs-placement="right"
+            >
+              <svg
+                width="20"
+                class="icon-20"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  opacity="0.4"
+                  d="M13.6663 6.99992C13.6663 10.6826 10.6817 13.6666 6.99967 13.6666C3.31767 13.6666 0.333008 10.6826 0.333008 6.99992C0.333008 3.31859 3.31767 0.333252 6.99967 0.333252C10.6817 0.333252 13.6663 3.31859 13.6663 6.99992Z"
+                  fill="currentColor"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.01351 6.20239C3.57284 6.20239 3.21484 6.56039 3.21484 6.99973C3.21484 7.43973 3.57284 7.79839 4.01351 7.79839C4.45418 7.79839 4.81218 7.43973 4.81218 6.99973C4.81218 6.56039 4.45418 6.20239 4.01351 6.20239ZM6.99958 6.20239C6.55891 6.20239 6.20091 6.56039 6.20091 6.99973C6.20091 7.43973 6.55891 7.79839 6.99958 7.79839C7.44024 7.79839 7.79824 7.43973 7.79824 6.99973C7.79824 6.56039 7.44024 6.20239 6.99958 6.20239ZM9.18718 6.99973C9.18718 6.56039 9.54518 6.20239 9.98584 6.20239C10.4265 6.20239 10.7845 6.56039 10.7845 6.99973C10.7845 7.43973 10.4265 7.79839 9.98584 7.79839C9.54518 7.79839 9.18718 7.43973 9.18718 6.99973Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </i>
+          </a>
+          <span>Transaction</span>
+        </div>
+        <i class="right-icon pl-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            class="icon-18"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </i>
+      </div>
+      <!-- Transaction start -->
+
+      <div id="list2" style="display: none">
+        <ul>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/transaction/openingbalance" class="text-xs"> Opening Balance </a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/transaction/receipt" class="text-xs"> Receipt </a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/transaction/payment" class="text-xs"> Payment Voucher </a>
+            </div>
+          </li>
+          <li>
+            <div class="flex flex-row gap-2 items-center">
+              <i class="icon">
+                <svg
+                  class="w-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="8"
+                      fill="currentColor"
+                    ></circle>
+                  </g>
+                </svg>
+              </i>
+              <a href="/cas/transaction/approval" class="text-xs"> Payment Approval </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Reports start -->
+      <div
+        class="flex flex-row cursor-pointer pt-3 items-center justify-between"
+        id="Reports"
+      >
+        <div class="flex flex-row items-center gap-2">
+          <a aria-current="page" href="/cas/dashboard">
+            <i
+              class="icon"
+              data-bs-toggle="tooltip"
+              title="Menu Style"
+              data-bs-placement="right"
+            >
+              <svg
+                width="20"
+                class="icon-20"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  opacity="0.4"
+                  d="M13.6663 6.99992C13.6663 10.6826 10.6817 13.6666 6.99967 13.6666C3.31767 13.6666 0.333008 10.6826 0.333008 6.99992C0.333008 3.31859 3.31767 0.333252 6.99967 0.333252C10.6817 0.333252 13.6663 3.31859 13.6663 6.99992Z"
+                  fill="currentColor"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.01351 6.20239C3.57284 6.20239 3.21484 6.56039 3.21484 6.99973C3.21484 7.43973 3.57284 7.79839 4.01351 7.79839C4.45418 7.79839 4.81218 7.43973 4.81218 6.99973C4.81218 6.56039 4.45418 6.20239 4.01351 6.20239ZM6.99958 6.20239C6.55891 6.20239 6.20091 6.56039 6.20091 6.99973C6.20091 7.43973 6.55891 7.79839 6.99958 7.79839C7.44024 7.79839 7.79824 7.43973 7.79824 6.99973C7.79824 6.56039 7.44024 6.20239 6.99958 6.20239ZM9.18718 6.99973C9.18718 6.56039 9.54518 6.20239 9.98584 6.20239C10.4265 6.20239 10.7845 6.56039 10.7845 6.99973C10.7845 7.43973 10.4265 7.79839 9.98584 7.79839C9.54518 7.79839 9.18718 7.43973 9.18718 6.99973Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </i>
+          </a>
+          <span>Reports</span>
+        </div>
+        <i class="right-icon pl-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            class="icon-18"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </i>
+      </div>
+      <!-- Reports end -->
+      <!-- Reports sublist start -->
+      <div id="list3" style="display: none" class="pt-1">
+        <ul class="flex flex-row items-center gap-2">
+          <i class="icon">
+            <svg
+              class="w-2"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g>
+                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+              </g>
+            </svg>
+          </i>
+          <li class="text-xs">Cash Book Register</li>
+        </ul>
+      </div>
+      <!-- Reports sublist start -->
+    </div>
+    <!-- other list item start -->
+
+    <!-- sidebar end large screen-->
+
+    <!-- sidebar start small screen-->
+
+    <div
+      id="small-sidebar"
+      class="sidebar bg-white-300 h-screen relative w-28 flex flex-col md:hidden"
+    >
+      <img
+        src="../assets/next.png"
+        alt=""
+        class="bg-white-800 rounded-full absolute -right-3 top-2 cursor-pointer w-7"
+        id="btn2"
+      />
+      <div class="p-2">
+        <img src="../assets/odisha_logo_login.png" alt="" class="w-12" />
+      </div>
+      <div class="flex flex-row cursor-pointer pl-4">
+        <a aria-current="page" href="/cas/dashboard">
+          <i
+            class="icon"
+            data-bs-toggle="tooltip"
+            title="Dashboard"
+            data-bs-placement="right"
+          >
+            <svg
+              class="w-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                opacity="0.4"
+                d="M16.0756 2H19.4616C20.8639 2 22.0001 3.14585 22.0001 4.55996V7.97452C22.0001 9.38864 20.8639 10.5345 19.4616 10.5345H16.0756C14.6734 10.5345 13.5371 9.38864 13.5371 7.97452V4.55996C13.5371 3.14585 14.6734 2 16.0756 2Z"
+                fill="currentColor"
+              ></path>
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M4.53852 2H7.92449C9.32676 2 10.463 3.14585 10.463 4.55996V7.97452C10.463 9.38864 9.32676 10.5345 7.92449 10.5345H4.53852C3.13626 10.5345 2 9.38864 2 7.97452V4.55996C2 3.14585 3.13626 2 4.53852 2ZM4.53852 13.4655H7.92449C9.32676 13.4655 10.463 14.6114 10.463 16.0255V19.44C10.463 20.8532 9.32676 22 7.92449 22H4.53852C3.13626 22 2 20.8532 2 19.44V16.0255C2 14.6114 3.13626 13.4655 4.53852 13.4655ZM19.4615 13.4655H16.0755C14.6732 13.4655 13.537 14.6114 13.537 16.0255V19.44C13.537 20.8532 14.6732 22 16.0755 22H19.4615C20.8637 22 22 20.8532 22 19.44V16.0255C22 14.6114 20.8637 13.4655 19.4615 13.4655Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+          </i>
+        </a>
+      </div>
+      <div class="pl-4">
+        <ul class="flex flex-col gap-2 pt-3">
+          <li class="flex flex-row cursor-pointer">
+            <a aria-current="page" href="">
+              <i
+                class="icon"
+                data-bs-toggle="tooltip"
+                title="Menu Style"
+                data-bs-placement="right"
+              >
+                <svg
+                  class="w-5"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    opacity="0.4"
+                    d="M13.6663 6.99992C13.6663 10.6826 10.6817 13.6666 6.99967 13.6666C3.31767 13.6666 0.333008 10.6826 0.333008 6.99992C0.333008 3.31859 3.31767 0.333252 6.99967 0.333252C10.6817 0.333252 13.6663 3.31859 13.6663 6.99992Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M4.01351 6.20239C3.57284 6.20239 3.21484 6.56039 3.21484 6.99973C3.21484 7.43973 3.57284 7.79839 4.01351 7.79839C4.45418 7.79839 4.81218 7.43973 4.81218 6.99973C4.81218 6.56039 4.45418 6.20239 4.01351 6.20239ZM6.99958 6.20239C6.55891 6.20239 6.20091 6.56039 6.20091 6.99973C6.20091 7.43973 6.55891 7.79839 6.99958 7.79839C7.44024 7.79839 7.79824 7.43973 7.79824 6.99973C7.79824 6.56039 7.44024 6.20239 6.99958 6.20239ZM9.18718 6.99973C9.18718 6.56039 9.54518 6.20239 9.98584 6.20239C10.4265 6.20239 10.7845 6.56039 10.7845 6.99973C10.7845 7.43973 10.4265 7.79839 9.98584 7.79839C9.54518 7.79839 9.18718 7.43973 9.18718 6.99973Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </i>
+            </a>
+          </li>
+          <li class="flex flex-row cursor-pointer">
+            <a aria-current="page" href="">
+              <i
+                class="icon"
+                data-bs-toggle="tooltip"
+                title="Menu Style"
+                data-bs-placement="right"
+              >
+                <svg
+                  class="w-5"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    opacity="0.4"
+                    d="M13.6663 6.99992C13.6663 10.6826 10.6817 13.6666 6.99967 13.6666C3.31767 13.6666 0.333008 10.6826 0.333008 6.99992C0.333008 3.31859 3.31767 0.333252 6.99967 0.333252C10.6817 0.333252 13.6663 3.31859 13.6663 6.99992Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M4.01351 6.20239C3.57284 6.20239 3.21484 6.56039 3.21484 6.99973C3.21484 7.43973 3.57284 7.79839 4.01351 7.79839C4.45418 7.79839 4.81218 7.43973 4.81218 6.99973C4.81218 6.56039 4.45418 6.20239 4.01351 6.20239ZM6.99958 6.20239C6.55891 6.20239 6.20091 6.56039 6.20091 6.99973C6.20091 7.43973 6.55891 7.79839 6.99958 7.79839C7.44024 7.79839 7.79824 7.43973 7.79824 6.99973C7.79824 6.56039 7.44024 6.20239 6.99958 6.20239ZM9.18718 6.99973C9.18718 6.56039 9.54518 6.20239 9.98584 6.20239C10.4265 6.20239 10.7845 6.56039 10.7845 6.99973C10.7845 7.43973 10.4265 7.79839 9.98584 7.79839C9.54518 7.79839 9.18718 7.43973 9.18718 6.99973Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </i>
+            </a>
+          </li>
+          <li class="flex flex-row cursor-pointer">
+            <a aria-current="page" href="">
+              <i
+                class="icon"
+                data-bs-toggle="tooltip"
+                title="Menu Style"
+                data-bs-placement="right"
+              >
+                <svg
+                  class="w-5"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    opacity="0.4"
+                    d="M13.6663 6.99992C13.6663 10.6826 10.6817 13.6666 6.99967 13.6666C3.31767 13.6666 0.333008 10.6826 0.333008 6.99992C0.333008 3.31859 3.31767 0.333252 6.99967 0.333252C10.6817 0.333252 13.6663 3.31859 13.6663 6.99992Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M4.01351 6.20239C3.57284 6.20239 3.21484 6.56039 3.21484 6.99973C3.21484 7.43973 3.57284 7.79839 4.01351 7.79839C4.45418 7.79839 4.81218 7.43973 4.81218 6.99973C4.81218 6.56039 4.45418 6.20239 4.01351 6.20239ZM6.99958 6.20239C6.55891 6.20239 6.20091 6.56039 6.20091 6.99973C6.20091 7.43973 6.55891 7.79839 6.99958 7.79839C7.44024 7.79839 7.79824 7.43973 7.79824 6.99973C7.79824 6.56039 7.44024 6.20239 6.99958 6.20239ZM9.18718 6.99973C9.18718 6.56039 9.54518 6.20239 9.98584 6.20239C10.4265 6.20239 10.7845 6.56039 10.7845 6.99973C10.7845 7.43973 10.4265 7.79839 9.98584 7.79839C9.54518 7.79839 9.18718 7.43973 9.18718 6.99973Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- sidebar end small screen-->
+
+    <div class="flex flex-col justify-between w-full">
+      <div class="nav sm:flex flex-row justify-between">
+        <div class="pl-5">
+          <h3 class="text-blue-500 text-xl">Cashbook Analytics System</h3>
+          <p>Statewide Integrated Scheme Based Cash Book Management System</p>
+        </div>
+        <div class="pr-4 md:hidden pt-1" id="rightBtn">
+          <div class="mt-2 w-10 h-1 bg-black"></div>
+          <div class="mt-2 w-10 h-1 bg-black"></div>
+          <div class="mt-2 w-10 h-1 bg-black"></div>
+        </div>
+        <div class="hidden md:block pr-4 pt-1 w-80">
+          <div class="flex flex-row justify-center">
+            <div class="w-10">
+              <img
+                src="../assets/avatar.png"
+                alt="User-Profile"
+                class="rounded-full w-10"
+                loading="lazy"
+              />
+            </div>
+            <div class="w-28">
+              <h6 class="">DFO, Cuttack</h6>
+              <p class="">DFO</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full bg-white hidden" id="profile">
+        <div class="flex justify-end">
+          <div class="w-10">
+            <img
+              src="../assets/avatar.png"
+              alt="User-Profile"
+              class="rounded-full w-10"
+              loading="lazy"
+            />
+          </div>
+          <div class="w-28">
+            <h6 class="">DFO, Cuttack</h6>
+            <p class="">DFO</p>
+          </div>
+        </div>
+      </div>
+      <%- body %>
+      
+      <div>
+        <p>
+          &copy; 2023
+          <span class="text-primary"
+            >Integrated Statewide Scheme based cash book Management
+            System</span
+          >, All Rights Reserved.
+        </p>
+      </div>
+    </div>
+  </div>
