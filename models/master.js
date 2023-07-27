@@ -8,6 +8,11 @@ const departmentSchema = new Schema({
     type: String,
     required: true,
   },
+  directorate:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Directorate",
+    
+  }]
   // Other department fields
 });
 
@@ -105,6 +110,7 @@ const bankDetailsSchema = new Schema({
   accountNumber: {
     type: String,
     required: true,
+    unique: true,
   },
   IFSCNumber: {
     type: String,
@@ -186,6 +192,14 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
+  directorateId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Directorate",
+  },
+  officeId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "District",
+  }
   // Other user fields
 });
 
@@ -557,6 +571,10 @@ const schemeBankMaster=new Schema({
     ref: "BankDetails",
     required: true,
   },
+  description:{
+    type:String,
+    
+  }
 
 })
 

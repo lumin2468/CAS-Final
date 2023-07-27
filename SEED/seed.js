@@ -10,27 +10,26 @@ mongoose.connect('mongodb+srv://Admin:8r2orA6FnbbZZXOS@cluster0.s121j0z.mongodb.
   useUnifiedTopology: true,
   socketTimeoutMS: 30000, // 30 seconds timeout
 });
+// director123
+const seed=async()=>{
+    const director= new User({name:'Director', email: 'director@example.com', password: '$2a$12$tbZhQURQA2oQoYsDmnGmfOOAB7UGCS.bJ7J.wZT6Uf3oL4231wkHS', mobile: '967577665', designation:'64c18b20f266f19d9a36be72', directorateId:'64c18f2c7690204365a3e915'})
+    const newDir=await director
+    console.log(newDir)
+    newDir.save()
+}
 
 // const seed=async()=>{
-//     const admin= new User({name:'admin', email: 'admin@example.com', password: '$2a$12$8ZmK5jgGAvq48w6yfleFVOshZDv15f4TFHp8z0FVkCPaOQ.CdCgRm', mobile: '9675776767', designation:'64bf7d618be72ad5fb8eb923'})
-//     const newAdmin=await admin
-//     console.log(newAdmin)
-//     newAdmin.save()
+//     const district= new DistrictName({name:'Cuttack'})
+//     const newDis=await district
+//     console.log(newDis)
+//     newDis.save()
 // }
-
-const seed=async()=>{
-    const district= new DistrictName({name:'Khorda'})
-    const newDis=await district
-    console.log(newDis)
-    newDis.save()
-}
 seed()
 
 // const seed=async()=>{
-//     const designation= new Designation({name:'DFO'})
+//     const designation= new Designation({name:'CDVO'})
 //     const newDesg=await designation
-//     console.log(newDesg)
 //     newDesg.save()
 // }
-// seed()
+
 

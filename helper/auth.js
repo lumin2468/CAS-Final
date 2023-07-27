@@ -8,7 +8,7 @@ const JWT_SECRET = process.env.SECRET_KEY; // Access the JWT secret from environ
 
 
 const verifyToken = (req, res, next) => {
-    const token = req.query.token
+    const token = req.session.token
     if (!token) {
       return res.status(403).json({ message: 'Token not provided' });
     }

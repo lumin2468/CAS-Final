@@ -1,3 +1,4 @@
+if (process.env.NODE_ENV !== 'production') { require('dotenv').config() }
 const express = require("express");
 const mongoSanitize = require("express-mongo-sanitize");
 const mongoose = require("mongoose");
@@ -10,8 +11,10 @@ const bcrypt = require("bcrypt");
 const { body, validationResult } = require("express-validator");
 const { consolidatedSchema } = require("./models/master");
 const verifyToken = require("./helper/auth");
-const dotenv = require('dotenv');
-dotenv.config(); 
+const isAuthenticated = require("./helper/authenticated");
+const session = require('express-session');
+
+
 
 // Import the Mongoose models
 const {
@@ -45,6 +48,15 @@ app.use(express.static(path.join(__dirname, "/public/")));
 app.engine("ejs", engine);
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
+
+// console.log(process.env.SECRET_KEY)
+// -------------------Session Storage --------------------------------
+app.use(session({
+  secret: 'QcaOSlMfj9tDp6vkrII6Ie0zGHNJWOZL',
+  resave: false,
+  saveUninitialized: true
+}));
+
 
 // Connect to MongoDB
 mongoose
@@ -116,7 +128,7 @@ app.post(
           id: user._id,
           designation: user.designation,
         },
-      };
+        };
 
       jwt.sign(
         payload,
@@ -125,10 +137,10 @@ app.post(
         (err, token) => {
           if (err) {
             console.error("Error during token generation:", err);
-            return res.status(500).json({ message: "Token generation failed" });
+            return res.status(500).redirect("/cas",{ message: "Token generation failed" });
           }
-
-          res.redirect(`/cas/dashboard?token=${token}`);
+          req.session.token = token;
+          res.redirect(`/cas/dashboard/`);
         }
       );
     } catch (error) {
@@ -148,12 +160,10 @@ app.get("/cas/dashboard", verifyToken, (req, res) => {
       username: req.user.username,
     });
   } else if (designation.name === "Director") {
-    res.render(`cas/directorate/dashboard/${id}`, {
-      title: "Dashboard",
-      username: req.user.username,
-    });
+    
+    res.render('directorate/dashboard');
   } else if (designation.name === "DFO") {
-    res.render(`cas/district/dashboard/${_id}`, {
+    res.render(`cas/district/dashboard/`, {
       title: "Dashboard",
       username: req.user.username,
     });
@@ -187,20 +197,13 @@ app.post("/cas/departments", async (req, res) => {
   }
 });
 
-app.get("/cas/dashboard", async (req, res) => {
-  try {
-    res.status(200).render("dashboard");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
 
-app.get("/cas/directorate", async (req, res) => {
+
+app.get("/cas/directorate",isAuthenticated, async (req, res) => {
   try {
     const directorate = await Directorate.find().populate("department");
     const departments = await Department.find();
-    console.log(departments);
+  
     res.render("directorate", { departments, directorate });
   } catch (error) {
     console.error(error);
@@ -210,16 +213,15 @@ app.get("/cas/directorate", async (req, res) => {
 
 app.post("/cas/directorate", async (req, res) => {
   try {
-    console.log(req.body);
+   
     const { department, directorate } = req.body;
     const dep = await Department.findOne({ name: department });
-    console.log(dep);
     const dir = new Directorate({ name: directorate, department: dep._id });
-    const newDirectorate = dir;
-    newDirectorate.save();
+    dep.directorate.push(dir?._id)
+    dep.save();
+    dir.save();
     res.redirect("directorate");
-    // const newDirectorateValue= await newDirectorate
-    // console.log(newDirectorateValue)
+   
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -251,9 +253,13 @@ app.post("/cas/district", async (req, res) => {
       directorate: directorateName._id,
       district: districtRef._id,
       address: office_address,
-    });
-    const newDistrictOffice = await districtOffice;
-    await newDistrictOffice.save();
+    }); 
+    
+    
+    directorateName.districts.push(districtOffice._id);
+    directorateName.save()
+    await districtOffice.save();
+    
     res.redirect("district");
   } catch (error) {
     console.error(error);
@@ -277,7 +283,8 @@ app.post("/cas/scheme", async (req, res) => {
   try {
     const { schemeName, startDate, endDate, directorate, schemeDesc } =
       req.body;
-    const directorateName = await Directorate.find({ name: directorate });
+      const directorateName = await Directorate.findOne({ name: directorate });
+      console.log(`gghjghghghghg`,directorateName)
     const schemeData = new Scheme({
       name: schemeName,
       startDate: startDate,
@@ -286,7 +293,9 @@ app.post("/cas/scheme", async (req, res) => {
       description: schemeDesc,
     });
     const newScheme = await schemeData;
-    console.log(newScheme);
+    directorateName.schemes.push(newScheme._id)
+    directorateName.save()
+
     newScheme.save();
     res.redirect("scheme");
   } catch (error) {
@@ -312,28 +321,28 @@ app.post("/cas/bank", async (req, res) => {
   try {
   const {bankName,Ifsc_code,branchName,accountNo,Balance,directorate,district_office, address}=req.body;
   const direcOfc=await Directorate.findOne({name:directorate});
-  let distOfc=""
-  if(!district_office ==='Select'){
+  let distOfc={}
+  console.log(district_office)
+  if(!(district_office ==='Select')){
     distOfc=await District.findOne({name:district_office});
-    console.log(distOfc._id);
+    console.log(distOfc)
   }
+  
   const bankMaster=new BankDetails({directorate:direcOfc._id, office:distOfc?._id,bank:bankName, accountNumber:accountNo,IFSCNumber:Ifsc_code,balance:Balance,branch:branchName,address:address })
+  direcOfc.bank.push(bankMaster._id)
+  direcOfc.save()
+  if(!(district_office ==='Select')){
+    distOfc.bank.push(bankMaster._id)
+    distOfc.save()
+  }
   bankMaster.save()
-  res.status('200').redirect('/cas/bank')
+  res.status(200).redirect('/cas/bank')
 } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-app.get("/cas/directorate/:id", async (req, res) => {
-  try {
-    res.render("Directorate/dashboard.ejs");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
 
 app.get("/cas/scheme2bank", async (req, res) => {
   try {
@@ -353,6 +362,7 @@ app.get("/cas/scheme2bank", async (req, res) => {
 
 app.post("/cas/scheme2bank", async (req, res) => {
   try {
+    console.log(`I am in`)
     const {directorate,office_name,scheme_name,bank_name, scheme_desc}= req.body
     const office_details= await District.findOne({name: office_name})
     const scheme_details= await Scheme.findOne({name: scheme_name})

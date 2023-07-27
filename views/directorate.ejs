@@ -73,13 +73,13 @@
 
             <!-- ;;;;;;; -->
         <tr class="border border-slate-300">
-        <% for( let[index, schm] of scheme.entries()) { %>
+        <% for( let[index, dir] of directorate.entries()) { %>
           <td><%= index+1 %></td>
           <td class="border border-slate-300">
-            <%= dir.department.name%>
+            <%= dir?.directorate?.name%>
           </td>
           <td class="border border-slate-300">
-           <%=dir.name %>
+           <%=dir?.name %>
           </td>
           <td class="flex flex-row items-center justify-center">
             <a class="" href="#" role="button">
