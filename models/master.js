@@ -115,6 +115,7 @@ const bankDetailsSchema = new Schema({
   IFSCNumber: {
     type: String,
     required: true,
+    unique: true,
   },
 
   balance: {

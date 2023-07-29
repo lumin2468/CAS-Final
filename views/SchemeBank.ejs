@@ -526,7 +526,7 @@
                 <label class="form-label"
                   >Directorate<span class="text-danger">*</span></label
                 >
-                <select name="department" class="lg:w-96 sm:w-52 h-8">
+                <select name="directorate" class="lg:w-96 sm:w-52 h-8">
                   <option>Select</option>
                   <% for( let dir of directorate_data ) { %>
                       <option value="<%= dir.name %>" <%= directorate_data.name === dir.name ? 'selected': '' %> ><%= dir.name %></option>

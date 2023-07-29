@@ -52,7 +52,7 @@ app.set("view engine", "ejs");
 // console.log(process.env.SECRET_KEY)
 // -------------------Session Storage --------------------------------
 app.use(session({
-  secret: 'QcaOSlMfj9tDp6vkrII6Ie0zGHNJWOZL',
+  secret: process.env.SESSION_KEY,
   resave: false,
   saveUninitialized: true
 }));
@@ -61,7 +61,7 @@ app.use(session({
 // Connect to MongoDB
 mongoose
   .connect(
-    "mongodb+srv://Admin:8r2orA6FnbbZZXOS@cluster0.s121j0z.mongodb.net/",
+    process.env.DB_URL,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -132,7 +132,7 @@ app.post(
 
       jwt.sign(
         payload,
-        "LCu7Ugc54QD3pbaD52pbSIa45tkgbqLT",
+        process.env.SECRET_KEY,
         { expiresIn: "1h" },
         (err, token) => {
           if (err) {
@@ -400,8 +400,38 @@ app.post("/cas/scheme2component", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+app.get('/cas/directorate/payment',async (req, res) => {
+  try {
+    // const directorate_data= await Directorate.find()
+    // const district_office=await District.find()
+    // const bank_details=await BankDetails.find()
+    // const scheme_details=await Scheme.find()
+    res.render('directorate/payment-voucher')
+   
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }});
+
+  app.get('/cas/district/receipt',async (req, res) => {
+    try {
+      // const directorate_data= await Directorate.find()
+      // const district_office=await District.find()
+      // const bank_details=await BankDetails.find()
+      // const scheme_details=await Scheme.find()
+      res.render('directorate/receipt-voucher')
+     
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }})
+  
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
+
+
