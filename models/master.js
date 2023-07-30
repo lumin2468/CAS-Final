@@ -48,6 +48,10 @@ const directorateSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "OpeningBalance",
   },
+  abbreviation:{
+    type:String,
+    required:true,
+  }
 });
 
 // District Schema
@@ -86,6 +90,10 @@ const districtSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "OpeningBalance",
   },
+  abbreviation:{
+    type:String,
+    required:true,
+  }
   // Other district fields
 });
 
@@ -128,6 +136,7 @@ const bankDetailsSchema = new Schema({
     type: String,
     required: true,
   },
+
   // Other bank details fields
 });
 
@@ -160,6 +169,10 @@ const schemeSchema = new Schema({
       ref: "SchemeComponentMaster",
     },
   ],
+  abbreviation:{
+    type:String,
+    required:true,
+  }
 });
 
 // Cash Book Register Schema
@@ -248,6 +261,10 @@ const DirPayment = Schema({
     type: String,
     required: true,
   },
+  modeofPaymentId: {
+    type: String,
+    required: true,
+  },
   modeofPaymentDate: {
     type: Date,
     required: true,
@@ -272,21 +289,25 @@ const DirPayment = Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "District",
   },
-  senderBank:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "BankDetails",
-  },
   receiverBank:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "BankDetails",
   },
-  paymentAmount:{
+amount:{
     type: Number,
     required:true
   },
-  receiveAmount:{
-    type: Number,
-    required:true
+  financialYear:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FinancialYear",
+  },
+  autoVoucherNo:{
+    type:String,
+    required:true,
+    unique:true,
+  },
+  status:{
+    type:String,
   },
   narration:{
     type: String,
@@ -295,21 +316,19 @@ const DirPayment = Schema({
 
 });
 
+const dirCounterSchema =Schema({
+  directorate: String,
+  district: String,
+  scheme: String,
+  financialYear: String,
+  count: { type: Number, default: 1 },
+});
+
 // Bank Account Schema
-const bankAccountSchema = Schema({
-  bank: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "BankDetails",
-    required: true,
-  },
-  balance: {
-    type: Number,
-    required: true,
-  },
-  reconciliation: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "BankReconciliation",
-  },
+const modeofpayment = Schema({
+ name:{
+  type:String,
+ }
   // Other bank account fields
 });
 
@@ -503,6 +522,8 @@ const demandDraftSchema = Schema({
   },
 });
 
+
+
 const transactionSchema = Schema({
   transactionType: {
     type: String,
@@ -639,7 +660,8 @@ const consolidatedSchema = {
     bankReconciliationSchema
   ),
   DirPayment: mongoose.model("DirPayment", DirPayment),
-  BankAccount: mongoose.model("BankAccount", bankAccountSchema),
+  DirCounter : mongoose.model('Counter', dirCounterSchema),
+  modeofPayment: mongoose.model("ModeofPayment", modeofpayment),
   OpeningBalance: mongoose.model("OpeningBalance", openingBalance),
   Notification: mongoose.model("Notification", notificationSchema),
   Beneficiary: mongoose.model("Beneficiary", beneficiarySchema),

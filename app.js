@@ -13,6 +13,7 @@ const { consolidatedSchema } = require("./models/master");
 const verifyToken = require("./helper/auth");
 const isAuthenticated = require("./helper/authenticated");
 const session = require('express-session');
+const generateVoucherNumber= require("./helper/dirCounter");
 
 
 
@@ -22,22 +23,40 @@ const {
   Directorate,
   District,
   DistrictName,
+  FinancialYear,
   Scheme,
   BankDetails,
   SchemeComponentMaster,
   SchemeBankMaster,
+  DirPayment,
+  DirCounter,
   User,
+  modeofPayment,
   Designation,
 } = consolidatedSchema;
 
 // Create the Express app
 const app = express();
-app.use(
-  "/cas/assets",
-  express.static((path.join(__dirname,"/public/assets")))
-);
-app.use(
-  "/cas/district/assets",
+
+
+const pages=['/cas/dashboard/assets','/cas/assets','/cas/directorate/assets', '/cas/district/assets','/cas/district/receipt/assets' ]
+// app.use(
+//   "/cas/assets",
+//   express.static((path.join(__dirname,"/public/assets")))
+// );
+// app.use(
+//   "/cas/district/assets",
+//   express.static((path.join(__dirname,"/public/assets")))
+// );
+// app.use(
+//   "/cas/directorate/assets",
+//   express.static((path.join(__dirname,"/public/assets")))
+// );
+// app.use(
+//   "/cas/dashboard/assets",
+//   express.static((path.join(__dirname,"/public/assets")))
+// );
+app.use(pages,
   express.static((path.join(__dirname,"/public/assets")))
 );
 app.use(morgan("tiny"));
@@ -128,6 +147,7 @@ app.post(
           id: user._id,
           designation: user.designation,
           directorate:user.directorateId,
+          officeId:user.officeId,
         },
         };
 
@@ -164,7 +184,7 @@ app.get("/cas/dashboard", verifyToken, (req, res) => {
     
     res.render('directorate/dashboard');
   } else if (designation.name === "DFO") {
-    res.render(`cas/district/dashboard/`, {
+    res.render(`districtOffice/district_office`, {
       title: "Dashboard",
       username: req.user.username,
     });
@@ -416,17 +436,25 @@ app.post("/cas/scheme2component", async (req, res) => {
 app.get('/cas/directorate/payment',isAuthenticated,async (req, res) => {
   try {
     const directorateOfc=req.user.user.directorate
-
+    let voucherNo=""
+   
+    if(req.query.voucher){
+      voucherNo=req.query.voucher
+    }
+   
+    const financialYear= await FinancialYear.find()
+    const modeofpmnt= await modeofPayment.find()
     const directorate_data= await Directorate.findOne({_id:directorateOfc})
     .populate('districts')
     .populate('bank')
     const schemes=await Scheme.find({directorate:directorate_data._id}).populate('components')
-    console.log(schemes)
-    console.log(`paymentpage`,{directorate_data})
-    // const district_office=await District.find()
-    // const bank_details=await BankDetails.find()
-    // const scheme_details=await Scheme.find()
-    res.render('directorate/payment-voucher',{directorate_data, schemes})
+     const paymentDetails= await DirPayment.find()
+    .populate("distOfcName")
+    .populate("scheme")
+    .populate("receiverBank")
+    .populate("financialYear")
+    
+    res.render('directorate/payment-voucher',{directorate_data, schemes, financialYear,modeofpmnt, voucherNo, paymentDetails})
    
   } catch (error) {
     console.error(error);
@@ -435,39 +463,56 @@ app.get('/cas/directorate/payment',isAuthenticated,async (req, res) => {
 
   app.post('/cas/directorate/payment',async (req, res) => {
     try {
-      console.log(req.body)
-      // const directorateOfc=req.user.user.directorate
+      const {date, modeof_payment,transaction_Id,transaction_date,sanction_ord_no, ref_voucher_no, schemeName, directorate, ofc_name,receiver_bank,p_amount, financial_year,desc}=req.body;
+      const directorate_data= await Directorate.findOne({name:directorate})
+      const district_office=await District.findOne({name:ofc_name})
+      const scheme_details=await Scheme.findOne({name:schemeName})
+      const finacialYearDetails=await FinancialYear.findOne({year:financial_year})
+      const bnkDetails=await SchemeBankMaster.findOne({office:district_office._id,scheme:scheme_details._id }).populate('bankId')
+      console.log(`BANK MAPPING`,bnkDetails)
   
-      // const directorate_data= await Directorate.findOne({_id:directorateOfc})
-      // .populate('districts')
-      // .populate('bank')
-      // const schemes=await Scheme.find({directorate:directorate_data._id}).populate('components')
-      // console.log(schemes)
-      // console.log(`paymentpage`,{directorate_data})
-      // const district_office=await District.find()
-      // const bank_details=await BankDetails.find()
-      // const scheme_details=await Scheme.find()
-      // res.render('directorate/payment-voucher',{directorate_data, schemes})
+      //counter implementation for generating aucto-voucher
+      const counter = await DirCounter.findOneAndUpdate(
+        {
+          directorate,
+          district:ofc_name,
+          scheme:schemeName,
+          financialYear:financial_year,
+        },
+        { $inc: { count: 1 } }, // Increment the counter by 1
+        { upsert: true, new: true } // Create a new document if it doesn't exist
+      );
+      
+      const voucherNo = generateVoucherNumber(directorate_data.abbreviation, district_office.abbreviation, scheme_details.abbreviation, financial_year, counter.count);
+      const payment = new DirPayment({
+        date,
+        modeofPayment:modeof_payment,
+        modeofPaymentId:transaction_Id,
+        modeofPaymentDate:transaction_date,
+        directorate:directorate_data._id,
+        distOfcName:district_office._id,
+        sanctionOrdNo:sanction_ord_no,
+        refVoucherNo:ref_voucher_no,
+        scheme:scheme_details._id,
+        receiverBank:bnkDetails.bankId._id,
+        amount:p_amount,
+        financialYear:finacialYearDetails._id,
+        autoVoucherNo:voucherNo,
+        narration:desc,
+        status:'pending'
+      });
+
+      
+     payment.save()
+     
+     res.redirect(`/cas/directorate/payment?voucher=${encodeURIComponent(voucherNo)}`);
+
      
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });
     }});
-
-  app.get('/cas/district/receipt',async (req, res) => {
-    try {
-      // const directorate_data= await Directorate.find()
-      // const district_office=await District.find()
-      // const bank_details=await BankDetails.find()
-      // const scheme_details=await Scheme.find()
-      res.render('directorate/receipt-voucher')
-     
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }})
   
-
     // /cas/directorate/payments/
     app.get('/cas/directorate/payments/:schemeName', async (req, res) => {
      try {
@@ -495,6 +540,53 @@ app.get('/cas/directorate/payment',isAuthenticated,async (req, res) => {
          res.status(500).json({ error: 'Failed to fetch data from the database.' });
        }
      });
+
+    //  ---------------DistOfc-------------------
+
+    app.get('/cas/district/acknmnt',isAuthenticated, async (req, res) => {
+      try {
+        const office_Id=req.user.user.officeId
+        const paymentDetails= await DirPayment.find({distOfcName:office_Id})
+        .populate("distOfcName")
+        .populate("scheme")
+        .populate("receiverBank")
+        .populate("financialYear")
+         res.render('districtOffice/payment_acknowledge',{paymentDetails})
+       } catch (error) {
+         console.error('Error fetching data:', error);
+         res.status(500).json({ error: 'Failed to fetch data from the database.' });
+       }
+     });
+     app.post('/cas/district/payment/:paymentId', async (req, res) => {
+      const paymentId = req.params.paymentId;
+      const newStatus = req.body.status;
+    
+      try {
+        // Update the payment status in the database based on the paymentId
+        await DirPayment.findByIdAndUpdate(paymentId, { status: newStatus });
+        res.redirect('/cas/district/acknmnt')
+      } catch (error) {
+        console.error('Error updating payment status:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
+
+    app.get('/cas/district/receipt/:id',async (req, res) => {
+      try {
+       const id = req.params.id;
+       const receiptDetails= await DirPayment.findById(id)
+       .populate("distOfcName")
+       .populate("scheme")
+       .populate("receiverBank")
+       .populate("financialYear")
+
+        res.render('districtOffice/receipt-voucher', {receiptDetails})
+       
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+      }})
+    
 
 // Start the server
 const PORT = process.env.PORT || 3000;

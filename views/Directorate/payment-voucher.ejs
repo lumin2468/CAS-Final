@@ -32,26 +32,25 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Mode of Payment <span class="text-danger">*</span></label>
-                        <select class="form-control">
+                        <select class="form-control" id="MOP" name="modeof_payment" >
                             <option>Select</option>
-                            <option>Treasury</option>
-                            <option>Cheque/Draft</option>
-                            <option>Neft</option>
-                            <option>Rtgs</option>
+                            <% for( let mop of modeofpmnt ) { %>
+                                <option value="<%= mop.name %>" <%= modeofpmnt.name === mop.name ? 'selected': '' %> ><%= mop.name %></option>
+                            <% } %>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">CHEQUE/DRAFT No./ Transaction Id </label>
-                        <input type="" class="form-control" name="modeof_payment">
+                        <label id="tranId" class="form-label">Transaction ID <span class="text-danger">*</span></label>
+                        <input type="" class="form-control" name="transaction_Id">
                     </div>
                 </div>
                 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">CHEQUE/DRAFT/Transaction  Date <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="modeof_payment_date">
+                        <label id="tranDate" class="form-label">Transaction Date <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" name="transaction_date">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -78,23 +77,23 @@
                         </select>
                     </div>
                 </div>
-                
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-label">Component <span class="text-danger">*</span></label>
-                        <select class="form-control" id="componentSelect" name="components_name">
-                            
-                           
-                        </select>
-                     
-                    </div>
-                </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label"> From Directorate <span class="text-danger">*</span></label>
                         <input type="" class="form-control" name="directorate", value="<%=directorate_data.name%>">
                     </div>
-                </div>
+                </div>      
+                    <!-- <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Component <span class="text-danger">*</span></label>
+                            <select class="form-control" id="componentSelect" name="components_name">
+                                
+                            
+                            </select>
+                        
+                        </div>
+                    </div> -->
+               
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">To Office <span class="text-danger">*</span></label>
@@ -109,28 +108,6 @@
                 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label"> From Bank <span class="text-danger">*</span></label>
-                        <select class="form-control" name="sender_bank">
-                            <option>Select</option>
-                            <option><%= directorate_data.bank.bank %></option>
-                        </select>
-                    </div>
-                </div>  
-              
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label class="form-label"> Amount <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="p_amount">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-label">Naration <span class="text-danger">*</span></label>
-                        <input type="text" style='height:80px; width:320px; position:absolute' class="form-control" name="desc">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
                         <label class="form-label"> To Bank <span class="text-danger">*</span></label>
                         <select class="form-control" id="ofcBnkSelect" name="receiver_bank">
                            
@@ -138,15 +115,34 @@
                         </select>
                     </div>
                 </div> 
+              
                 <div class="col-md-2">
                     <div class="form-group">
                         <label class="form-label"> Amount <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="r_amount">
+                        <input type="text" class="form-control" name="p_amount">
                     </div>
                 </div>
-           
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label"> Financial-year <span class="text-danger">*</span></label>
+                        <select class="form-control" id="officeSelect" name="financial_year" >
+                            <option>Select</option>
+                            <% for( let fny of financialYear ) { %>
+                                <option value="<%= fny.year %>" <%= financialYear.year === fny.year ? 'selected': '' %> ><%= fny.year %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">Naration <span class="text-danger">*</span></label>
+                        <input type="text" style='height:80px; width:340px;' class="form-control" name="desc">
+                    </div>
+                </div>
+                
                 <div class="col-md-12 text-center">
-                    <button type="submit" name="next" class="btn btn-primary next action-button">Submit</button>
+                    <button type="submit" class="btn btn-primary next action-button">Submit</button>
                 </div>
             </div>
         </form>
@@ -159,29 +155,37 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
+
                             <th>Sl. No.</th>
-                            <th>Scheme Name</th>
-                            <th>Ledger</th>
+                            <th>Office Name</th>
+                            <th>scheme Name</th>
                             <th>Voucher No.</th>
-                            <th>Voucher Type</th>
-                            <th>Receipt <br> Date</th>
-                            <th>Mode of <br> Receipt</th>
+                            <th>Ref.<br> Voucher No</th>
+                            <th>mode of Payment</th>
+                            <th>Payment <br> Date</th>
+                            <th>Receiver<br> Bank Name</th>
                             <th> Amount</th>
-                            <th>Narration</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <% for( let[index, pmntd] of paymentDetails.entries()) { %>
                         <tr>
-                            <td>1</td>
-                            <td>Blue Revolution</td>
-                            <td>Party Ledger</td>
-                            <td>ASC/R/2022/00002</td>
-                            <td>Receipt</td>
-                            <td>12/06/2023</td>
-                            <td>Cash</td>
-                            <td>10,00,000</td>
-                            <td>Purpose</td>
+                            <td><%= index+1 %></td>
+                            <td><%=pmntd.distOfcName.name  %></td>
+                            <td><%=pmntd.scheme.name  %></td>
+                            <td><%=pmntd.autoVoucherNo %></td>
+                            <td><%=pmntd.refVoucherNo %></td>
+                            <td><%=pmntd.modeofPayment %></td>
+                            <td><%=(pmntd.date).toLocaleDateString('en-GB') %></td>
+                            <td><%=pmntd.receiverBank.bank  %></td>
+                            <td><%=pmntd.amount %></td>
+                            <% if (pmntd.status==='pending'){ %>
+                            <td class="text-danger"><%=pmntd.status %></td>
+                            <% }else{ %>
+                                <td style="color: green;"><%=pmntd.status %></td>
+                            <% } %>
                             <td>
                                 <a class="btn btn-primary btn-icon btn-sm rounded-pill ms-2" href="receipt-voucher-print.php" role="button" target="_blank">
                                     <span class="btn-inner">
@@ -207,6 +211,7 @@
                                 </a>
                             </td>
                         </tr>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
@@ -223,7 +228,22 @@
       const tableBody = document.getElementById('componentSelect');
       const officeSelect= document.getElementById('officeSelect');
       const ofcBnkSelect = document.getElementById('ofcBnkSelect');
+      const mop = document.getElementById('MOP');
+      const transactionId = document.getElementById('tranId');
+      const transactionDate = document.getElementById('tranDate');
       // Function to fetch data from the backend API and update the table
+
+      async function modeofPmnts(){
+        const selectedMode=mop.value
+        if(selectedMode === 'Select'){
+            transactionId.innerHTML='Tansaction ID <span class="text-danger">*</span>'
+            transactionDate.innerHTML='Transaction Date <span class="text-danger">*</span>'
+        }else{
+            transactionId.innerHTML=`${selectedMode} ID <span class="text-danger">*</span>`
+            transactionDate.innerHTML=`${selectedMode} Date <span class="text-danger">*</span>`
+        }
+      }
+
       async function fetchTableData() {
         const selectedScheme = schemeSelect.value;
         if (selectedScheme === 'Select') {
@@ -271,10 +291,19 @@
       // Event listener to trigger data fetching when the scheme select value changes
       schemeSelect.addEventListener('change', fetchTableData);
       officeSelect.addEventListener('change', fetchOfcData);
+      mop.addEventListener('change', modeofPmnts);
   
       // Initially, call the fetch function to populate the table based on the default selected scheme (Select)
       fetchTableData();
     });
+
+      // Check if the voucher number exists
+  const voucherNo = '<%= voucherNo %>';
+    if (voucherNo) {
+      // Display the voucher number in a popup
+      alert(`Voucher Number created successfully/n: ${voucherNo}`);
+    }
   </script>
+ 
   
 </html>

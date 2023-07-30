@@ -36,5 +36,5 @@ router.get("/cas/departments",isAuthenticated, async (req, res) => {
   // ... Define more routes for other resources ...
   
   
-  
+  module.exports =router;
   

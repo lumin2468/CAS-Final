@@ -1,6 +1,6 @@
 const { consolidatedSchema } = require("../models/master")
 
-const {User,Designation,DistrictName}= consolidatedSchema
+const {User,Designation,DistrictName,FinancialYear, modeofPayment}= consolidatedSchema
 const mongoose = require('mongoose');
 
 // Increase the default timeout value (in milliseconds)
@@ -11,12 +11,23 @@ mongoose.connect('mongodb+srv://Admin:8r2orA6FnbbZZXOS@cluster0.s121j0z.mongodb.
   socketTimeoutMS: 30000, // 30 seconds timeout
 });
 // director123
+//dfo123
 const seed=async()=>{
-    const director= new User({name:'Director', email: 'director@example.com', password: '$2a$12$tbZhQURQA2oQoYsDmnGmfOOAB7UGCS.bJ7J.wZT6Uf3oL4231wkHS', mobile: '967577665', designation:'64c18b20f266f19d9a36be72', directorateId:'64c18f2c7690204365a3e915'})
-    const newDir=await director
-    console.log(newDir)
-    newDir.save()
+    const dfo= new User({name:'DFO', email: 'dfo@example.com', password: '$2a$12$1Kqa5P2G6BQKtxFffV4ixOdb3RpFwp5xZKc42vzIvX1hNlIWH1oTm'
+    , mobile: '9783267998', designation:'64c18b38b82d864ecf8eefbb', directorateId:'64c18f2c7690204365a3e915',officeId:'64c4ddd09845283bb46cd17d'})
+   
+    console.log(dfo)
+    dfo.save()
 }
+
+// const seed=async () =>{
+//   const newFinanceYear=new FinancialYear({year:'2023-24'})
+//   newFinanceYear.save()
+// }
+// const seed=async () =>{
+//     const modeofpmnt=new modeofPayment({name:'RTGS'})
+//     modeofpmnt.save()
+//   }
 
 // const seed=async()=>{
 //     const district= new DistrictName({name:'Cuttack'})
