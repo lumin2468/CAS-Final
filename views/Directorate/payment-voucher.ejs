@@ -21,11 +21,12 @@
     <h4 class="mb-5">Payment</h4>
     <div class="card">
         <div class="card-body">
+            <form action="/cas/directorate/payment", method="post">
             <div class="row">
-            <div class="col-md-4">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label"> Date <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="">
+                        <input type="date" class="form-control" name="date">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -33,7 +34,7 @@
                         <label class="form-label">Mode of Payment <span class="text-danger">*</span></label>
                         <select class="form-control">
                             <option>Select</option>
-                            <option>Cash</option>
+                            <option>Treasury</option>
                             <option>Cheque/Draft</option>
                             <option>Neft</option>
                             <option>Rtgs</option>
@@ -43,37 +44,37 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">CHEQUE/DRAFT No./ Transaction Id </label>
-                        <input type="" class="form-control" name="">
+                        <input type="" class="form-control" name="modeof_payment">
                     </div>
                 </div>
                 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">CHEQUE/DRAFT/Transaction  Date <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="">
+                        <input type="date" class="form-control" name="modeof_payment_date">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Sanction Order Ref. No.  <span class="text-danger">*</span></label>
-                        <input type="" class="form-control" name="">
+                        <input type="" class="form-control" name="sanction_ord_no">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Reference Voucher No. <span class="text-danger">*</span></label>
-                        <input type="" class="form-control" name="">
+                        <input type="" class="form-control" name="ref_voucher_no">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">Scheme Name <span class="text-danger">*</span></label>
-                        <select class="form-control">
+                        <label  class="form-label">Scheme Name <span class="text-danger">*</span></label>
+                        <select class="form-control" id="schemeSelect" name="schemeName" >
                             <option>Select</option>
-                            <option>RKVY</option>
-                            <option>Blue Revolution</option>
-                            <option>PMY</option>
+                            <% for( let sch of schemes ) { %>
+                                <option value="<%= sch.name %>" <%= schemes === sch.name ? 'selected': '' %> ><%= sch.name %></option>
+                            <% } %>
                         </select>
                     </div>
                 </div>
@@ -81,10 +82,9 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Component <span class="text-danger">*</span></label>
-                        <select class="form-control">
-                            <option>Select</option>
-                            <option>Development of Tanks</option>
-                            <option>Net and Boat</option>
+                        <select class="form-control" id="componentSelect" name="components_name">
+                            
+                           
                         </select>
                      
                     </div>
@@ -92,23 +92,27 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label"> From Directorate <span class="text-danger">*</span></label>
-                        <input type="" class="form-control" name="">
+                        <input type="" class="form-control" name="directorate", value="<%=directorate_data.name%>">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">To Office <span class="text-danger">*</span></label>
-                        <input type="" class="form-control" name="">
+                        <select class="form-control" id="officeSelect" name="ofc_name" >
+                            <option>Select</option>
+                            <% for( let ofc of directorate_data.districts ) { %>
+                                <option value="<%= ofc.name %>" <%= directorate_data.districts.name === ofc.name ? 'selected': '' %> ><%= ofc.name %></option>
+                            <% } %>
+                        </select>
                     </div>
                 </div>
                 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label"> From Bank <span class="text-danger">*</span></label>
-                        <select class="form-control">
+                        <select class="form-control" name="sender_bank">
                             <option>Select</option>
-                            <option>HDFC</option>
-                            <option>SBI</option>
+                            <option><%= directorate_data.bank.bank %></option>
                         </select>
                     </div>
                 </div>  
@@ -116,22 +120,20 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label class="form-label"> Amount <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="">
+                        <input type="text" class="form-control" name="p_amount">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Naration <span class="text-danger">*</span></label>
-                        <input type="text" style='height:80px; width:320px; position:absolute' class="form-control" name="">
+                        <input type="text" style='height:80px; width:320px; position:absolute' class="form-control" name="desc">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label"> To Bank <span class="text-danger">*</span></label>
-                        <select class="form-control">
-                            <option>Select</option>
-                            <option>Cash</option>
-                            <option>Bank</option>
+                        <select class="form-control" id="ofcBnkSelect" name="receiver_bank">
+                           
                             
                         </select>
                     </div>
@@ -139,14 +141,15 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label class="form-label"> Amount <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="">
+                        <input type="text" class="form-control" name="r_amount">
                     </div>
                 </div>
            
                 <div class="col-md-12 text-center">
-                    <button type="button" name="next" class="btn btn-primary next action-button">Submit</button>
+                    <button type="submit" name="next" class="btn btn-primary next action-button">Submit</button>
                 </div>
             </div>
+        </form>
         </div>
     </div>
 
@@ -214,4 +217,64 @@
 <%- include('../includes/footer.ejs')%>
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const schemeSelect = document.getElementById('schemeSelect');
+      const tableBody = document.getElementById('componentSelect');
+      const officeSelect= document.getElementById('officeSelect');
+      const ofcBnkSelect = document.getElementById('ofcBnkSelect');
+      // Function to fetch data from the backend API and update the table
+      async function fetchTableData() {
+        const selectedScheme = schemeSelect.value;
+        if (selectedScheme === 'Select') {
+          tableBody.innerHTML = ''; // Clear the table when 'Select' is chosen
+          return;
+        }
+  
+        try {
+          const response = await fetch(`/cas/directorate/payments/${selectedScheme}`);
+          const data = await response.json();
+          console.log(`fetched data`,data.components);
+          // Update the table with the fetched data
+          tableBody.innerHTML = data.components
+            .map(
+              (component) => ` <option value=${component.name}>${component.name}</option>`
+            )
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+  
+
+      async function fetchOfcData() {
+          const selectedOfc = officeSelect.value;
+          const schemeName=schemeSelect.value;
+          if (selectedOfc === 'Select') {
+          ofcBnkSelect.innerHTML = ''; // Clear the table when 'Select' is chosen
+          return;
+        }
+  
+        try {
+          const response = await fetch(`/cas/directorate/payments/bank/${selectedOfc}/${schemeName}`);
+          const data = await response.json();
+          console.log(`fetched data`,data);
+        //   // Update the table with the fetched data
+        ofcBnkSelect.innerHTML = data
+            .map(
+              (bnk) => ` <option value=${bnk.bankId.bank}>${bnk.bankId.bank}</option>`
+            )
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+  
+      // Event listener to trigger data fetching when the scheme select value changes
+      schemeSelect.addEventListener('change', fetchTableData);
+      officeSelect.addEventListener('change', fetchOfcData);
+  
+      // Initially, call the fetch function to populate the table based on the default selected scheme (Select)
+      fetchTableData();
+    });
+  </script>
+  
 </html>

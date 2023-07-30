@@ -1,5 +1,4 @@
-
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Department Schema
@@ -8,11 +7,12 @@ const departmentSchema = new Schema({
     type: String,
     required: true,
   },
-  directorate:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Directorate",
-    
-  }]
+  directorate: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Directorate",
+    },
+  ],
   // Other department fields
 });
 
@@ -27,13 +27,11 @@ const directorateSchema = new Schema({
     ref: "Department",
     required: true,
   },
-  bank: [
-    {
+  bank: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "BankDetails",
-      
     },
-  ],
+  
   districts: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -46,10 +44,10 @@ const directorateSchema = new Schema({
       ref: "Schemes",
     },
   ],
-  openingBalance:{
+  openingBalance: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "OpeningBalance",
-  }
+  },
 });
 
 // District Schema
@@ -84,25 +82,25 @@ const districtSchema = new Schema({
       ref: "Schemes",
     },
   ],
-  openingBalance:{
+  openingBalance: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "OpeningBalance",
-  }
+  },
   // Other district fields
 });
 
 // Bank Details Schema
 const bankDetailsSchema = new Schema({
-  directorate:{
+  directorate: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Directorate",
-    required: true,
+    
   },
-  office:{
+  office: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "District",
   },
- 
+
   bank: {
     type: String,
     required: true,
@@ -122,14 +120,14 @@ const bankDetailsSchema = new Schema({
     type: Number,
     required: true,
   },
-  branch:{
+  branch: {
     type: String,
     required: true,
   },
-  address:{
+  address: {
     type: String,
     required: true,
-  }
+  },
   // Other bank details fields
 });
 
@@ -143,22 +141,25 @@ const schemeSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Directorate",
     required: true,
-    
   },
-  startDate:{
-      type:Date,
-      required: true,
-  },
-  endDate:{
-    type:Date,
-    required: true,
-},
-  description:{
-    type:String,
+  startDate: {
+    type: Date,
     required: true,
   },
-
-  
+  endDate: {
+    type: Date,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  components: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SchemeComponentMaster",
+    },
+  ],
 });
 
 // Cash Book Register Schema
@@ -193,14 +194,14 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
-  directorateId:{
+  directorateId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Directorate",
   },
-  officeId:{
+  officeId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "District",
-  }
+  },
   // Other user fields
 });
 
@@ -238,39 +239,60 @@ const bankReconciliationSchema = Schema({
 });
 
 // Ledger Schema
-const ledgerSchema = Schema({
-  name: {
+const DirPayment = Schema({
+  date: {
+    type: Date,
+    required: true,
+  },
+  modeofPayment: {
     type: String,
     required: true,
   },
-  purpose: {
-    type: String,
+  modeofPaymentDate: {
+    type: Date,
     required: true,
   },
-  payer: {
-    type: String,
-    required: true,
-  },
-  payee: {
-    type: String,
-    required: true,
-  },
-  voucherNo: {
-    type: String,
-    required: true,
-  },
-  sanctionOrderNo: {
-    type: String,
-    required: true,
-  },
-  reconciliation: {
+  directorate: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "BankReconciliation",
+    ref: "Directorate",
   },
-  ledgerType: {
+  sanctionOrdNo: {
     type: String,
-    enum: ["payment", "receipt"],
+    required: true,
   },
+  refVoucherNo: {
+    type: String,
+    required: true,
+  },
+ scheme: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Scheme",
+  },
+  distOfcName: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "District",
+  },
+  senderBank:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BankDetails",
+  },
+  receiverBank:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BankDetails",
+  },
+  paymentAmount:{
+    type: Number,
+    required:true
+  },
+  receiveAmount:{
+    type: Number,
+    required:true
+  },
+  narration:{
+    type: String,
+    
+  }
+
 });
 
 // Bank Account Schema
@@ -348,7 +370,6 @@ const beneficiarySchema = Schema({
     type: String,
     required: true,
   },
- 
 });
 const beneficiaryBankSchema = Schema({
   name: {
@@ -514,7 +535,6 @@ const transactionSchema = Schema({
   // Other transaction fields
 });
 
-
 const contraSchema = Schema({
   cash: {
     type: mongoose.Schema.Types.ObjectId,
@@ -544,58 +564,59 @@ const contraSchema = Schema({
   },
 });
 
-const   districtNameSchema=new Schema({
- name: {
+const districtNameSchema = new Schema({
+  name: {
     type: String,
     required: true,
-    }
-})
+  },
+});
 
-const schemeBankMaster=new Schema({
-  office:{
+const schemeBankMaster = new Schema({
+  office: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Distict",
     required: true,
   },
-  directorate:{
+  directorate: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Directorate",
     required: true,
   },
-  scheme:{
+  scheme: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Scheme",
     required: true,
   },
-  bankId:{
+  bankId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "BankDetails",
     required: true,
   },
-  description:{
-    type:String,
-    
-  }
-
-})
-
-
-const schemeComponenetMaster=new Schema({
-  name:{
-    type:String,
-    required:true,
+  description: {
+    type: String,
   },
-  code:{
-    type:String,
-    required:true,
+});
+
+const schemeComponenetMaster = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  scheme:{
+  code: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  scheme: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Scheme",
+  },
+  desc: {
+    type: String,
     required: true,
   },
-
-})
+});
 // Consolidated Schema
 const consolidatedSchema = {
   Department: mongoose.model("Department", departmentSchema),
@@ -609,12 +630,15 @@ const consolidatedSchema = {
   Designation: mongoose.model("Designation", designationSchema),
   DistrictName: mongoose.model("DistrictName", districtNameSchema),
   SchemeBankMaster: mongoose.model("SchemeBankMaster", schemeBankMaster),
-  SchemeComponentMaster: mongoose.model("SchemeComponentMaster", schemeComponenetMaster),
+  SchemeComponentMaster: mongoose.model(
+    "SchemeComponentMaster",
+    schemeComponenetMaster
+  ),
   BankReconciliation: mongoose.model(
     "BankReconciliation",
     bankReconciliationSchema
   ),
-  Ledger: mongoose.model("Ledger", ledgerSchema),
+  DirPayment: mongoose.model("DirPayment", DirPayment),
   BankAccount: mongoose.model("BankAccount", bankAccountSchema),
   OpeningBalance: mongoose.model("OpeningBalance", openingBalance),
   Notification: mongoose.model("Notification", notificationSchema),
@@ -629,4 +653,4 @@ const consolidatedSchema = {
   Contra: mongoose.model("Contra", contraSchema), // contra
 };
 
-module.exports = {consolidatedSchema};
+module.exports = { consolidatedSchema };

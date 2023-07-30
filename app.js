@@ -37,7 +37,7 @@ app.use(
   express.static((path.join(__dirname,"/public/assets")))
 );
 app.use(
-  "/cas/directorate/assets",
+  "/cas/district/assets",
   express.static((path.join(__dirname,"/public/assets")))
 );
 app.use(morgan("tiny"));
@@ -127,6 +127,7 @@ app.post(
         user: {
           id: user._id,
           designation: user.designation,
+          directorate:user.directorateId,
         },
         };
 
@@ -328,9 +329,12 @@ app.post("/cas/bank", async (req, res) => {
     console.log(distOfc)
   }
   
-  const bankMaster=new BankDetails({directorate:direcOfc._id, office:distOfc?._id,bank:bankName, accountNumber:accountNo,IFSCNumber:Ifsc_code,balance:Balance,branch:branchName,address:address })
-  direcOfc.bank.push(bankMaster._id)
-  direcOfc.save()
+  const bankMaster=new BankDetails({directorate:direcOfc?._id, office:distOfc?._id,bank:bankName, accountNumber:accountNo,IFSCNumber:Ifsc_code,balance:Balance,branch:branchName,address:address })
+  if(!(directorate ==='Select')){
+    direcOfc.bank=bankMaster._id;
+    direcOfc.save()
+  }
+ 
   if(!(district_office ==='Select')){
     distOfc.bank.push(bankMaster._id)
     distOfc.save()
@@ -368,8 +372,11 @@ app.post("/cas/scheme2bank", async (req, res) => {
     const scheme_details= await Scheme.findOne({name: scheme_name})
     const bank_details= await BankDetails.findOne({bank: bank_name})
     
-    const schemBankDetails=new SchemeBankMaster({office:office_details._id, directorate:office_details.directorate,scheme:scheme_details._id,bankId:bank_details._id,description:scheme_desc})
-    schemBankDetails.save()
+    const schemeBankDetails=new SchemeBankMaster({office:office_details._id, directorate:office_details.directorate,scheme:scheme_details._id,bankId:bank_details._id,description:scheme_desc})
+    scheme_details.bank=schemeBankDetails.bankId
+    scheme_details.save()
+    schemeBankDetails.save()
+   res.redirect('/cas/scheme2bank')
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -389,11 +396,16 @@ app.get("/cas/scheme2component", async (req, res) => {
 });
 app.post("/cas/scheme2component", async (req, res) => {
   try {
+    const {component_name,scheme_name,code,compo_desc}= req.body
     // const directorate_data= await Directorate.find()
     // const district_office=await District.find()
     // const bank_details=await BankDetails.find()
-    // const scheme_details=await Scheme.find()
-    console.log(req.body)
+    const scheme_value=await Scheme.findOne({name:scheme_name})
+    const new_Component= new SchemeComponentMaster({name:component_name,code:code, scheme:scheme_value._id, desc:compo_desc})
+    new_Component.save()
+    scheme_value.components.push(new_Component._id)
+    scheme_value.save()
+    res.redirect('/cas/scheme2component')
    
   } catch (error) {
     console.error(error);
@@ -401,18 +413,46 @@ app.post("/cas/scheme2component", async (req, res) => {
   }
 });
 
-app.get('/cas/directorate/payment',async (req, res) => {
+app.get('/cas/directorate/payment',isAuthenticated,async (req, res) => {
   try {
-    // const directorate_data= await Directorate.find()
+    const directorateOfc=req.user.user.directorate
+
+    const directorate_data= await Directorate.findOne({_id:directorateOfc})
+    .populate('districts')
+    .populate('bank')
+    const schemes=await Scheme.find({directorate:directorate_data._id}).populate('components')
+    console.log(schemes)
+    console.log(`paymentpage`,{directorate_data})
     // const district_office=await District.find()
     // const bank_details=await BankDetails.find()
     // const scheme_details=await Scheme.find()
-    res.render('directorate/payment-voucher')
+    res.render('directorate/payment-voucher',{directorate_data, schemes})
    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }});
+
+  app.post('/cas/directorate/payment',async (req, res) => {
+    try {
+      console.log(req.body)
+      // const directorateOfc=req.user.user.directorate
+  
+      // const directorate_data= await Directorate.findOne({_id:directorateOfc})
+      // .populate('districts')
+      // .populate('bank')
+      // const schemes=await Scheme.find({directorate:directorate_data._id}).populate('components')
+      // console.log(schemes)
+      // console.log(`paymentpage`,{directorate_data})
+      // const district_office=await District.find()
+      // const bank_details=await BankDetails.find()
+      // const scheme_details=await Scheme.find()
+      // res.render('directorate/payment-voucher',{directorate_data, schemes})
+     
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }});
 
   app.get('/cas/district/receipt',async (req, res) => {
     try {
@@ -428,10 +468,43 @@ app.get('/cas/directorate/payment',async (req, res) => {
     }})
   
 
+    // /cas/directorate/payments/
+    app.get('/cas/directorate/payments/:schemeName', async (req, res) => {
+     try {
+        const schemeName = req.params.schemeName;
+        const componentData = await Scheme.findOne({ name: schemeName }).populate('components');
+        res.json(componentData)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Failed to fetch data from the database.' });
+      }
+    });
+
+    app.get('/cas/directorate/payments/bank/:officeName/:schemeName', async (req, res) => {
+      try {
+         const {officeName, schemeName} = req.params;
+         console.log(officeName, schemeName); 
+         const ofcId=await District.findOne({name: officeName})
+         const schmId=await Scheme.findOne({name: schemeName})
+         const bnkDetails=await SchemeBankMaster.find({office:ofcId._id,scheme:schmId._id }).populate('bankId')
+         res.json(bnkDetails);
+        //  const componentData = await Scheme.findOne({ name: schemeName }).populate('components');
+        //  res.json(componentData)
+       } catch (error) {
+         console.error('Error fetching data:', error);
+         res.status(500).json({ error: 'Failed to fetch data from the database.' });
+       }
+     });
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
+
+
+
+
+
 
 
