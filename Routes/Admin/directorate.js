@@ -31,3 +31,4 @@ router.get("/cas/directorate",isAuthenticated, async (req, res) => {
     }
   });
   
+  module.exports =router;

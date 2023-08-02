@@ -20,134 +20,177 @@
 <div class="content-inner container-fluid pb-0" id="page_layout">
     <h4 class="mb-5">Receipt</h4>
     <div class="card">
+        <form action="/cas/district/receipt" method="post">
         <div class="card-body">
             <div class="row">
+        
             <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label"> Date <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="">
+                        <% if (receiptDetails) { %>
+                        <input type="text" readonly="true" class="form-control" name="date" value="<%= (receiptDetails.date) %>">
+                        <%}else{%>
+                        <input type="date" class="form-control" name="date" >
+                        <% } %>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Mode of Receipt <span class="text-danger">*</span></label>
-                        <select class="form-control">
-                            <option>Select</option>
-                            <option>Cash</option>
-                            <option>Cheque/Draft</option>
-                            <option>Neft</option>
-                            <option>Rtgs</option>
-                        </select>
+                        <% if (receiptDetails) { %>
+                        <input type="text" readonly="true" class="form-control" name="modeof_payment" value="<%= (receiptDetails.modeofPayment) %>">
+                        <%}else{%>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <select class="form-control" id="MOP" name="modeof_payment" >
+                                    <option>Select</option>
+                                    <% for( let mop of modeofpmnt ) { %>
+                                        <option value="<%= mop.name %>" <%= modeofpmnt.name === mop.name ? 'selected': '' %> ><%= mop.name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        <% } %>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">CHEQUE/DRAFT No./ Transaction Id </label>
-                        <input type="" class="form-control" name="">
+                        <label class="form-label" id="transaction_Id">Transaction Id </label>
+                        <% if (receiptDetails) { %>
+                        <input type="text", readonly="true" class="form-control" name="transaction_Id" value="<%= (receiptDetails.modeofPaymentId) %>">
+                        <%}else{%>
+                        <input type="text" class="form-control" name="transaction_Id" >
+                        <% } %>
                     </div>
                 </div>
                 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">CHEQUE/DRAFT/Transaction  Date <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="">
+                        <label id="transaction_date" class="form-label">Transaction  Date <span class="text-danger">*</span></label>
+                        <% if (receiptDetails) { %>
+                        <input type="text" class="form-control" readonly="true" name="transaction_date" value="<%= (receiptDetails.modeofPaymentDate)%>">
+                        <%}else{%>
+                        <input type="date" class="form-control" name="transaction_date" >
+                        <% } %>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Sanction Order no. <span class="text-danger">*</span></label>
-                        <input type="" class="form-control" name="">
+                        <% if (receiptDetails) { %>
+                        <input type="text" readonly="true" class="form-control" name="sanction_ord_no" value="<%= (receiptDetails.sanctionOrdNo) %>">
+                        <%}else{%>
+                        <input type="text" class="form-control" name="sanction_ord_no" >
+                        <% } %>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Reference Voucher No. <span class="text-danger">*</span></label>
-                        <input type="" class="form-control" name="">
+                        <% if (receiptDetails) { %>
+                        <input type="text" readonly="true" class="form-control" name="ref_voucher_no" value="<%= (receiptDetails.refVoucherNo) %>">
+                        <%}else{%>
+                        <input type="text" class="form-control" name="ref_voucher_no" >
+                        <% } %>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Scheme Name <span class="text-danger">*</span></label>
-                        <select class="form-control">
-                            <option>Select</option>
-                            <option>RKVY</option>
-                            <option>Blue Revolution</option>
-                            <option>PMY</option>
-                        </select>
+                        <% if (receiptDetails) { %>
+                        <input type="text" readonly="true" class="form-control" name="scheme" value="<%= (receiptDetails.scheme.name) %>">
+                        <%}else{%>
+                            <div class="flex flex-col p-2">
+                            <select name="scheme" id="schemeSelect" class="form-control">
+                                <option>Select</option>
+                                <% for( let dis of distOfcDetails.schemes ) { %>
+                                    <option value="<%= dis.name %>" <%= distOfcDetails.schemes.name === dis.name ? 'selected': '' %> ><%= dis.name %></option>
+                                <% } %>
+                              </select>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
-                
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-label">Component <span class="text-danger">*</span></label>
-                        <select class="form-control">
-                            <option>Select</option>
-                            <option>Development of Tanks</option>
-                            <option>Net and Boat</option>
-                        </select>
-                     
-                    </div>
-                </div>
+            
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label"> From Directorate <span class="text-danger">*</span></label>
-                        <input type="" class="form-control" name="">
+                        <% if (receiptDetails) { %>
+                        <input type="text" class="form-control" name="directorate" readonly="true" value="<%= (receiptDetails.directorate.name) %>">
+                        <%}else{%>
+                        <input type="text" class="form-control" name="directorate" value="<%= distOfcDetails.directorate.name %>" >
+                        <% } %>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">To office <span class="text-danger">*</span></label>
-                        <input type="" class="form-control" name="">
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-label"> From Bank <span class="text-danger">*</span></label>
-                        <select class="form-control">
-                            <option>Select</option>
-                            <option>HDFC</option>
-                            <option>SBI</option>
-                        </select>
-                    </div>
-                </div>  
-              
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label class="form-label"> Amount <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="">
+                        <% if (receiptDetails) { %>
+                        <input type="text" class="form-control" name="office_name" readonly="true" value="<%= (receiptDetails.distOfcName.name) %>" >
+                        <%}else{%>
+                        <input type="text" id="officeSelect" class="form-control" name="office_name" value="<%= distOfcDetails.name %>">
+                        <% } %>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">Naration <span class="text-danger">*</span></label>
-                        <input type="text" style='height:80px; width:320px; position:absolute' class="form-control" name="">
+                        <label class="form-label"> Source Bank Details <span class="text-danger">*</span></label>
+                        <% if (receiptDetails) { %>
+                            <input type="text" class="form-control" name="source_bank_details" >
+                        <%}else{%>
+                            <input type="text" class="form-control" name="source_bank_details" >
+
+                        <% } %>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label"> To Bank <span class="text-danger">*</span></label>
-                        <select class="form-control">
-                            <option>Select</option>
-                            <option>Cash</option>
-                            <option>Bank</option>
-                            
-                        </select>
+                        <label class="form-label"> Receiver Bank Details <span class="text-danger">*</span></label>
+                        <% if (receiptDetails) { %>
+                        <input type="text" class="form-control" name="bankDetails" readonly="true" value="<%= (receiptDetails.receiverBank.bank) %>" >
+                        <%}else{%>
+                            <select name="bankDetails" id="ofcBnkSelect" class="form-control">
+                                
+                               
+                              </select>
+                        <% } %>
                     </div>
                 </div> 
                 <div class="col-md-2">
                     <div class="form-group">
                         <label class="form-label"> Amount <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="">
+                        <% if (receiptDetails) { %>
+                        <input type="text" class="form-control" name="amount" readonly="true" value="<%= (receiptDetails.amount) %>" >
+                        <% }else{ %>
+                        <input type="text" class="form-control" name="amount" >
+                        <% } %>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label"> Financial-year <span class="text-danger">*</span></label>
+                        <select class="form-control" name="financial_year" >
+                            <% for( let fny of financialYear ) { %>
+                                <option value="<%= fny.year %>" <%= financialYear.year === fny.year ? 'selected': '' %> ><%= fny.year %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label  class="form-label">Naration <span class="text-danger">*</span></label>
+                        <input type="text" style='height:80px; width:320px; ' class="form-control" name="desc">
                     </div>
                 </div>
            
                 <div class="col-md-12 text-center">
-                    <button type="button" name="next" class="btn btn-primary next action-button">Submit</button>
+                    <button type="submit" class="btn btn-primary next action-button">Submit</button>
                 </div>
             </div>
-        </div>
+        </form>
+      </div>
     </div>
 
     <div class="card">
@@ -157,28 +200,31 @@
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
-                            <th>Scheme Name</th>
-                            <th>Ledger</th>
-                            <th>Voucher No.</th>
-                            <th>Voucher Type</th>
                             <th>Receipt <br> Date</th>
-                            <th>Mode of <br> Receipt</th>
-                            <th> Amount</th>
-                            <th>Narration</th>
+                            <th>Mode of Receipt</th>
+                            <th>Voucher No.</th>
+                            <th>Sanction order no.</th>
+                            <th>Scheme</th>
+                            <th>Receiver Bank</th>
+                            <th> Source Bank</th>
+                            <th>Source</th>
+                            <th>Amount</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <% for( let[index, receiptData] of distOfcRecData.entries()) { %>
                         <tr>
-                            <td>1</td>
-                            <td>Blue Revolution</td>
-                            <td>Party Ledger</td>
-                            <td>ASC/R/2022/00002</td>
-                            <td>Receipt</td>
-                            <td>12/06/2023</td>
-                            <td>Cash</td>
-                            <td>10,00,000</td>
-                            <td>Purpose</td>
+                            <td><%= index+1 %></td>
+                            <td><%=(receiptData.date).toLocaleDateString('en-GB') %></td>
+                            <td><%=receiptData.modeof_payment %></td>
+                            <td><%=receiptData.autoVoucherNo  %></td>
+                            <td><%=receiptData.sanction_ord_no  %></td>
+                            <td><%=receiptData.scheme.name%></td>
+                            <td><%=receiptData.receiver_bank.bank %></td>
+                            <td><%=receiptData.source_bank_details %></td>
+                            <td><%=receiptData.directorate.name %></td>
+                            <td><%=receiptData.amount%></td>
                             <td>
                                 <a class="btn btn-primary btn-icon btn-sm rounded-pill ms-2" href="receipt-voucher-print.php" role="button" target="_blank">
                                     <span class="btn-inner">
@@ -204,6 +250,7 @@
                                 </a>
                             </td>
                         </tr>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
@@ -214,4 +261,53 @@
 <%- include('../includes/footer.ejs')%>
 
 </body>
+<script>
+    const schemeSelect = document.getElementById('schemeSelect');
+    const officeSelect= document.getElementById('officeSelect');
+    const ofcBnkSelect = document.getElementById('ofcBnkSelect');
+    const mop = document.getElementById('MOP');
+      const transactionId = document.getElementById('transaction_Id');
+      const transactionDate = document.getElementById('transaction_date');
+      // Function to fetch data from the backend API and update the table
+
+      async function modeofPmnts(){
+        const selectedMode=mop.value
+        if(selectedMode === 'Select'){
+            transactionId.innerHTML='Tansaction reference <span class="text-danger">*</span>'
+            transactionDate.innerHTML='Transaction Date <span class="text-danger">*</span>'
+        }else{
+            transactionId.innerHTML=`${selectedMode} ID <span class="text-danger">*</span>`
+            transactionDate.innerHTML=`${selectedMode} Date <span class="text-danger">*</span>`
+        }
+      }
+
+      async function fetchOfcData() {
+          const selectedOfc = officeSelect.value;
+          const schemeName=schemeSelect.value;
+          if (schemeName === 'Select') {
+          ofcBnkSelect.innerHTML = ''; // Clear the table when 'Select' is chosen
+          return;
+        }
+  
+        try {
+          const response = await fetch(`/cas/directorate/payments/bank/${selectedOfc}/${schemeName}`);
+          const data = await response.json();
+        //   // Update the table with the fetched data
+        ofcBnkSelect.innerHTML = data
+            .map(
+              (bnk) => ` <option value=${bnk.bankId.bank}>${bnk.bankId.bank}</option>`
+            )
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+      schemeSelect.addEventListener('change', fetchOfcData);
+      mop.addEventListener('change', modeofPmnts);
+
+      const voucherNo = '<%= voucherNo %>';
+    if (voucherNo) {
+      // Display the voucher number in a popup
+      alert(`Voucher Number created successfully/n: ${voucherNo}`);
+    }
+</script>
 </html>

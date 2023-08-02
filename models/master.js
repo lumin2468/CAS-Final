@@ -41,7 +41,7 @@ const directorateSchema = new Schema({
   schemes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Schemes",
+      ref: "Scheme",
     },
   ],
   openingBalance: {
@@ -83,7 +83,7 @@ const districtSchema = new Schema({
   schemes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Schemes",
+      ref: "Scheme",
     },
   ],
   openingBalance: {
@@ -93,7 +93,11 @@ const districtSchema = new Schema({
   abbreviation:{
     type:String,
     required:true,
-  }
+  },
+  beneficiary:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Beneficiary",
+  }]
   // Other district fields
 });
 
@@ -289,6 +293,10 @@ const DirPayment = Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "District",
   },
+  senderBank:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BankDetails",
+  },
   receiverBank:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "BankDetails",
@@ -316,6 +324,292 @@ amount:{
 
 });
 
+const DirReceipt = Schema({
+  date: {
+    type: Date,
+    required: true,
+  },
+  modeof_payment: {
+    type: String,
+    required: true,
+  },
+  transaction_id: {
+    type: String,
+    required: true,
+  },
+  transaction_date: {
+    type: Date,
+    required: true,
+  },
+  directorate: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Directorate",
+  },
+  sanction_no: {
+    type: String,
+    required: true,
+  },
+  ref_voucher_no: {
+    type: String,
+    required: true,
+  },
+  purpose: {
+    type: String,
+    required: true
+  },
+ source: {
+  type: String,
+  required: true
+  },
+  directorate:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Directorate",
+  },
+  source_bank:{
+    type: String,
+    required: true
+  },
+
+  receiver_bank:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BankDetails",
+  },
+amount:{
+    type: Number,
+    required:true
+  },
+  financialYear:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FinancialYear",
+  },
+  autoVoucherNo:{
+    type:String,
+    required:true,
+    unique:true,
+  },
+
+ desc:{
+    type: String,
+    
+  }
+
+});
+
+const DisReceipt = Schema({
+  date: {
+    type: Date,
+    required: true,
+  },
+  modeof_payment: {
+    type: String,
+    required: true,
+  },
+  transaction_Id: {
+    type: String,
+    required: true,
+  },
+  transaction_date: {
+    type: Date,
+    required: true,
+  },
+  directorate: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Directorate",
+  },
+  sanction_ord_no: {
+    type: String,
+    required: true,
+  },
+  ref_voucher_no: {
+    type: String,
+    required: true,
+  },
+  scheme: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Scheme",
+  },
+  office_name:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "District",
+  },
+  
+  source_bank_details:{
+    type: String,
+    required: true
+  },
+
+  receiver_bank:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BankDetails",
+  },
+amount:{
+    type: Number,
+    required:true
+  },
+  financial_year:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FinancialYear",
+  },
+  autoVoucherNo:{
+    type:String,
+    required:true,
+    unique:true,
+  },
+ 
+ desc:{
+    type: String,
+    
+  }
+
+});
+
+const DisPayment = Schema({
+  date: {
+    type: Date,
+    required: true,
+  },
+  mode_of_payment: {
+    type: String,
+    required: true,
+  },
+  transaction_Id: {
+    type: String,
+    required: true,
+  },
+  transaction_date: {
+    type: Date,
+    required: true,
+  },
+
+  sanction_ord_no: {
+    type: String,
+    required: true,
+  },
+  beneficiary:{
+  type: mongoose.Schema.Types.ObjectId,
+  ref:'Beneficiary',
+  },
+ scheme: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Scheme",
+  },
+  components_name:{
+    type:String,
+    required: true,
+  },
+  office_name:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "District",
+  },
+  
+  source_bank_details:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BankDetails",
+  },
+
+  benifBank:{
+    type: String,
+    required: true,
+  },
+amount:{
+    type: Number,
+    required:true
+  },
+  financial_year:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FinancialYear",
+  },
+  autoVoucherNo:{
+    type:String,
+    required:true,
+    unique:true,
+  },
+  status:{
+    type:String,
+    required:true,
+  },
+ 
+ desc:{
+    type: String,
+    
+  }
+
+});
+
+const DisOfcPayment = Schema({
+  date: {
+    type: Date,
+    required: true,
+  },
+  modeofPayment: {
+    type: String,
+    required: true,
+  },
+  modeofPaymentId: {
+    type: String,
+    required: true,
+  },
+  component:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "schemeComponenetMaster",
+  },
+  modeofPaymentDate: {
+    type: Date,
+    required: true,
+  },
+  directorate: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Directorate",
+  },
+  sanctionOrdNo: {
+    type: String,
+    required: true,
+  },
+  refVoucherNo: {
+    type: String,
+  },
+ scheme: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Scheme",
+  },
+
+  component: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Component",
+  },
+  distOfcName: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "District",
+  },
+  receiverBank:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Benificiary",
+  },
+amount:{
+    type: Number,
+    required:true
+  },
+  financialYear:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FinancialYear",
+  },
+  autoVoucherNo:{
+    type:String,
+    required:true,
+    unique:true,
+  },
+  status:{
+    type:String,
+  },
+  narration:{
+    type: String,
+    
+  }
+
+});
+
+
+
 const dirCounterSchema =Schema({
   directorate: String,
   district: String,
@@ -324,6 +618,31 @@ const dirCounterSchema =Schema({
   count: { type: Number, default: 1 },
 });
 
+const dirRecCounterSchema =Schema({
+  directorate: String,
+  district: String,
+  scheme: String,
+  financialYear: String,
+  count: { type: Number, default: 1 },
+});
+
+
+  const disRecCounterSchema  =Schema({
+    directorate: String,
+    district: String,
+    scheme: String,
+    financialYear: String,
+    count: { type: Number, default: 1 },
+  });
+
+  const disPayCounterSchema  =Schema({
+    district: String,
+    scheme: String,
+    component: String,
+    beneficiary:String,
+    financialYear: String,
+    count: { type: Number, default: 1 },
+  });
 // Bank Account Schema
 const modeofpayment = Schema({
  name:{
@@ -334,24 +653,27 @@ const modeofpayment = Schema({
 
 // Opening Balance Schema
 const openingBalance = Schema({
-  level: {
-    type: String,
+  date: {
+    type: Date,
     required: true,
   },
-  balance: {
-    type: Number,
-    required: true,
+  financialYear: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'FinancialYear',
   },
-  scheme: [
+  bank: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Scheme",
+      ref: "bank",
       required: true,
     },
   ],
-  Ledger: {
+  cash:{
+    type:Number
+  },
+  Advance: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "LedgerDetails",
+    ref: "Advance",
   },
 
   // Other opening balance fields
@@ -378,17 +700,52 @@ const notificationSchema = Schema({
 
 // Beneficiary Schema
 const beneficiarySchema = Schema({
-  name: {
+  benificiary_name: {
     type: String,
     required: true,
   },
-  gst: {
-    type: String,
+  office_name: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "District",
+    required: true,
   },
-  pan: {
+  dob: {
+    type: Date,
+    required: true,
+  },
+  Gender: {
     type: String,
     required: true,
   },
+  Aadhar_No: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  Bnk_Acc_No: {
+    type: String,
+    required: true,
+  },
+  Ifsc_code: {
+    type: String,
+    required: true,
+  },
+
+  branch_details: {
+    type: String,
+    required: true,
+  },
+  desc: {
+    type: String,
+    required: true,
+  },
+  scheme: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Scheme",
+      required: true,
+    },
+  ],
 });
 const beneficiaryBankSchema = Schema({
   name: {
@@ -660,7 +1017,13 @@ const consolidatedSchema = {
     bankReconciliationSchema
   ),
   DirPayment: mongoose.model("DirPayment", DirPayment),
+  DirReceipt: mongoose.model("DirReceipt", DirReceipt),
+  DisReceipt: mongoose.model("DisReceipt", DisReceipt),
+  DisPayment: mongoose.model("DisPayment", DisPayment),
   DirCounter : mongoose.model('Counter', dirCounterSchema),
+  DirRecCounter : mongoose.model('DirRecCounter', dirRecCounterSchema),
+  DisRecCounter : mongoose.model('DisRecCounter', disRecCounterSchema),
+  DisPayCounter : mongoose.model('DisPayCounter', disPayCounterSchema),
   modeofPayment: mongoose.model("ModeofPayment", modeofpayment),
   OpeningBalance: mongoose.model("OpeningBalance", openingBalance),
   Notification: mongoose.model("Notification", notificationSchema),
